@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="library_management_title">Hệ thống\nQuản lý Thư viện</string>
+    <string name="tab_management">Quản lý</string>
+    <string name="tab_book_list">DS Sách</string>
+    <string name="tab_student">Sinh viên</string>
+    <string name="student_section_title">Sinh viên</string>
+    <string name="student_name_placeholder">Nhập tên sinh viên...</string>
+    <string name="btn_change">Thay đổi</string>
+
+    <string name="hint_click_change_to_save">Bấm "Thay đổi" để lưu/chọn sinh viên này</string>
+    <string name="book_list_section_title">Danh sách sách</string>
+    <string name="btn_add">Thêm</string>
+    <string name="book_list_title">Danh Sách Sách Trong Thư Viện</string>
+    <string name="student_list_title">Danh Sách Sinh Viên</string>
+    <string name="empty_student_list">Chưa có sinh viên nào trong hệ thống.</string>
+    <string name="no_borrowed_books">• Chưa mượn sách nào</string>
+    <string name="add_book_dialog_title">Thêm Sách Mới</string>
+    <string name="book_title_label">Tên sách</string>
+    <string name="btn_cancel">Hủy</string>
+
+</resources>

@@ -96,7 +96,7 @@ fun StartScreen(
                                 .clip(CircleShape)
                                 .background(SoftBlueBg),
                             contentAlignment = Alignment.Center
-                        ){
+                            ){
                             Box(
                                 modifier = Modifier
                                     .size(14.dp)

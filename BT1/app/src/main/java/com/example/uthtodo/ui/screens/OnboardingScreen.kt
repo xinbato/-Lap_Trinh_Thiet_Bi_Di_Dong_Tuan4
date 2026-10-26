@@ -81,7 +81,7 @@ fun OnboardingScreen(
                     color = PrimaryBlue
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(horizontalAlignment = Alignment.Start) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 CheckCircleIcon(
                                     modifier = Modifier.size(12.dp),

@@ -37,8 +37,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uthtodo.model.OnboardingCardType
+import com.example.uthtodo.model.CardContentDetail
+import com.example.uthtodo.model.CategoryTagModel
 import com.example.uthtodo.model.OnboardingPageModel
+import com.example.uthtodo.model.ReminderItemModel
+import com.example.uthtodo.model.TaskItemModel
 import com.example.uthtodo.ui.theme.BorderGray
 import com.example.uthtodo.ui.theme.Dimens
 import com.example.uthtodo.ui.theme.IndicatorInactive
@@ -120,10 +123,10 @@ fun OnboardingScreen(
                 Text(
                     text = buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = TextDark)) {
-                            append("UTH ")
+                            append(pageModel.headerModel.appNameBold)
                         }
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Normal, color = PrimaryBlue)) {
-                            append("Todo")
+                            append(pageModel.headerModel.appNameRegular)
                         }
                     },
                     fontSize = 20.sp
@@ -131,7 +134,7 @@ fun OnboardingScreen(
             }
 
             Text(
-                text = "Bỏ qua",
+                text = pageModel.headerModel.skipText,
                 color = TextSecondary,
                 fontSize = Dimens.FontBodyMedium,
                 fontWeight = FontWeight.Medium,
@@ -150,10 +153,10 @@ fun OnboardingScreen(
                 .padding(24.dp),
             contentAlignment = Alignment.Center
         ) {
-            when (pageModel.cardType) {
-                OnboardingCardType.TASK_LIST -> OnboardingCard1a()
-                OnboardingCardType.CATEGORIES -> OnboardingCard1b()
-                OnboardingCardType.NOTIFICATION -> OnboardingCard1c()
+            when (val detail = pageModel.cardDetail) {
+                is CardContentDetail.TaskListDetail -> OnboardingCard1a(detail.tasks)
+                is CardContentDetail.CategoryDetail -> OnboardingCard1b(detail.categories)
+                is CardContentDetail.NotificationDetail -> OnboardingCard1c(detail.reminder)
             }
         }
 
@@ -185,7 +188,7 @@ fun OnboardingScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                repeat(3) { index ->
+                repeat(pageModel.totalSteps) { index ->
                     if (index == pageModel.stepIndex) {
                         Box(
                             modifier = Modifier
@@ -227,159 +230,91 @@ fun OnboardingScreen(
 }
 
 @Composable
-private fun OnboardingCard1a() {
+private fun OnboardingCard1a(tasks: List<TaskItemModel>) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            color = PureWhite
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
+        tasks.forEach { task ->
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                color = PureWhite
             ) {
-                CheckCircleIcon(modifier = Modifier.size(24.dp))
-                Spacer(modifier = Modifier.width(12.dp))
-                Box(
-                    modifier = Modifier
-                        .height(8.dp)
-                        .width(110.dp)
-                        .clip(CircleShape)
-                        .background(BorderGray)
-                )
-            }
-        }
-
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            color = PureWhite
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(22.dp)
-                        .border(2.dp, IndicatorInactive, CircleShape)
-                )
-                Spacer(modifier = Modifier.width(14.dp))
-                Box(
-                    modifier = Modifier
-                        .height(8.dp)
-                        .width(90.dp)
-                        .clip(CircleShape)
-                        .background(BorderGray)
-                )
-            }
-        }
-
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            color = PureWhite
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(22.dp)
-                        .border(2.dp, IndicatorInactive, CircleShape)
-                )
-                Spacer(modifier = Modifier.width(14.dp))
-                Box(
-                    modifier = Modifier
-                        .height(8.dp)
-                        .width(130.dp)
-                        .clip(CircleShape)
-                        .background(BorderGray)
-                )
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (task.isChecked) {
+                        CheckCircleIcon(modifier = Modifier.size(24.dp))
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .size(22.dp)
+                                .border(2.dp, IndicatorInactive, CircleShape)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(14.dp))
+                    Box(
+                        modifier = Modifier
+                            .height(8.dp)
+                            .width(if (task.isChecked) 110.dp else if (task.id % 2 == 0) 90.dp else 130.dp)
+                            .clip(CircleShape)
+                            .background(BorderGray)
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun OnboardingCard1b() {
+private fun OnboardingCard1b(categories: List<CategoryTagModel>) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
-        // Tag Card 1: Học tập
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            color = PureWhite
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(SoftBlueBg)
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    Text(
-                        text = "Học tập",
-                        color = PrimaryBlue,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold
+        categories.forEach { category ->
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                color = PureWhite
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (category.isPrimary) SoftBlueBg else OrangeTagBg)
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Text(
+                            text = category.name,
+                            color = if (category.isPrimary) PrimaryBlue else OrangeTagText,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Box(
+                        modifier = Modifier
+                            .height(8.dp)
+                            .width(if (category.isPrimary) 140.dp else 110.dp)
+                            .clip(CircleShape)
+                            .background(BorderGray)
                     )
                 }
-                Spacer(modifier = Modifier.height(10.dp))
-                Box(
-                    modifier = Modifier
-                        .height(8.dp)
-                        .width(140.dp)
-                        .clip(CircleShape)
-                        .background(BorderGray)
-                )
-            }
-        }
-
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            color = PureWhite
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(OrangeTagBg)
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    Text(
-                        text = "Cuộc sống",
-                        color = OrangeTagText,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Box(
-                    modifier = Modifier
-                        .height(8.dp)
-                        .width(110.dp)
-                        .clip(CircleShape)
-                        .background(BorderGray)
-                )
             }
         }
     }
 }
 
 @Composable
-private fun OnboardingCard1c() {
+private fun OnboardingCard1c(reminder: ReminderItemModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        // Bell Circle Icon
         Surface(
             modifier = Modifier.size(76.dp),
             shape = CircleShape,
@@ -393,13 +328,14 @@ private fun OnboardingCard1c() {
 
         Spacer(modifier = Modifier.height(18.dp))
 
+        // Speech Bubble Reminder
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = PureWhite,
             shadowElevation = 2.dp
         ) {
             Text(
-                text = "Ôn bài Toán lúc 19:00",
+                text = reminder.text,
                 color = TextDark,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,

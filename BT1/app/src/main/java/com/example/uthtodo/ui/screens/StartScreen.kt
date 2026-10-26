@@ -61,7 +61,6 @@ fun StartScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // App Logo Card
             Surface(
                 modifier = Modifier.size(110.dp),
                 shape = RoundedCornerShape(28.dp),
@@ -72,7 +71,6 @@ fun StartScreen(
                     modifier = Modifier.padding(18.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    // Row 1: Checked item
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -89,7 +87,6 @@ fun StartScreen(
 
                     Spacer(modifier = Modifier.height(14.dp))
 
-                    // Row 2: Unchecked item
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -113,7 +110,6 @@ fun StartScreen(
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            // App Name Title
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -129,7 +125,6 @@ fun StartScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Subtitle
             Text(
                 text = data.subtitle,
                 color = WhiteAlpha90,
@@ -138,14 +133,12 @@ fun StartScreen(
             )
         }
 
-        // Bottom Progress Bar & Version
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = Dimens.PaddingLarge),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Progress Track
             Row(
                 modifier = Modifier
                     .width(110.dp)
@@ -164,7 +157,6 @@ fun StartScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Version Label
             Text(
                 text = data.version,
                 color = WhiteAlpha90,

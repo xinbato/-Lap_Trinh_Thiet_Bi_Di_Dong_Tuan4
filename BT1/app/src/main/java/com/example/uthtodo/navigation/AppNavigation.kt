@@ -20,7 +20,6 @@ fun AppNavigation(
         startDestination = ScreenRoute.Start.route,
         modifier = modifier
     ) {
-        // Màn hình Start (Splash)
         composable(ScreenRoute.Start.route) {
             StartScreen(
                 onStartClick = {
@@ -29,7 +28,6 @@ fun AppNavigation(
             )
         }
 
-        // Màn hình 1a: Onboarding Bước 1
         composable(ScreenRoute.Onboarding1a.route) {
             val pageModel = OnboardingPageModel.getPages()[0]
             OnboardingScreen(
@@ -45,7 +43,6 @@ fun AppNavigation(
             )
         }
 
-        // Màn hình 1b: Onboarding Bước 2
         composable(ScreenRoute.Onboarding1b.route) {
             val pageModel = OnboardingPageModel.getPages()[1]
             OnboardingScreen(
@@ -61,7 +58,6 @@ fun AppNavigation(
             )
         }
 
-        // Màn hình 1c: Onboarding Bước 3
         composable(ScreenRoute.Onboarding1c.route) {
             val pageModel = OnboardingPageModel.getPages()[2]
             OnboardingScreen(

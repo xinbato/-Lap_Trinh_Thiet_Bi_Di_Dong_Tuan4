@@ -101,10 +101,18 @@ fun OnboardingScreen(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Box(
                                     modifier = Modifier
-                                        .size(10.dp)
+                                        .size(12.dp)
                                         .clip(CircleShape)
-                                        .background(SoftBlueBg)
-                                )
+                                        .background(SoftBlueBg),
+                                    contentAlignment = Alignment.Center
+                                ){
+                                    Box(
+                                        modifier = Modifier
+                                            .size(9.dp)
+                                            .clip(CircleShape)
+                                            .background(PrimaryBlue)
+                                    )
+                                }
                                 Spacer(modifier = Modifier.width(3.dp))
                                 Box(
                                     modifier = Modifier

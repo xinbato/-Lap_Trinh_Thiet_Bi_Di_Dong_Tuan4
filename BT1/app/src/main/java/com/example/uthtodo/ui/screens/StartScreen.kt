@@ -94,8 +94,16 @@ fun StartScreen(
                             modifier = Modifier
                                 .size(20.dp)
                                 .clip(CircleShape)
-                                .background(SoftBlueBg)
-                        )
+                                .background(SoftBlueBg),
+                            contentAlignment = Alignment.Center
+                        ){
+                            Box(
+                                modifier = Modifier
+                                    .size(14.dp)
+                                    .clip(CircleShape)
+                                    .background(PureWhite)
+                            )
+                        }
                         Spacer(modifier = Modifier.width(10.dp))
                         Box(
                             modifier = Modifier
